@@ -67,11 +67,9 @@ ntdll!_LIST_ENTRY
 ########################list_entry获取数据位置########################
 >
 #define list_entry(ptr, type, member) ((type *) ((char *) (ptr) - (unsigned long) (&((type *) 0)->member)))
-
 ptr 	: 	list_entry节点指针
 type 	:	数据类型指针
 member	:	这是TYPE对象中list_head型变量的变量名
-
 (TYPE *)0 				:	将0强制转换成TYPE型指针，则该指针一定指向0地址(数据结构基址).
 &((TYPE *)0)->MEMBER	:	MEMBER对应数据基址的偏移offset.
 然后使用ptr-offset		 :	数据真实基址.
@@ -201,6 +199,7 @@ ntdll!_IMAGE_DATA_DIRECTORY
    +0x004 Size             : 0xd6a0
 ```
 ----------------
+
 ```
 typedef struct _IMAGE_EXPORT_DIRECTORY {
     DWORD   Characteristics;                //未使用,总为0
@@ -293,7 +292,8 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 2. CALL相对地址调用
 ==只要被调用的函数地址小于调用者则会使用负数偏移,大概率不会产生0x00字节==
 3. CALL绝对地址调用
-==动态查找绝对地址保存到寄存器,然后CALL Registers==
+==动态查找绝对地址保存到寄存器,然后CALL Registers==\n
+
 ```
      find_function_shorten:               
        jmp find_function_shorten_bnc   ;     Short jump
