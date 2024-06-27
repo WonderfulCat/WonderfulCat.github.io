@@ -7,11 +7,11 @@ layout: default
  
  ## DEP 简介
 #### DEP 总共有4种模式.
-> OptIn:           	DEP 只对系统进程和指定进程开启.
- OptOut:        	DEP 对所有进程开启,除非指定了特定进程不开启.
- AlwaysOn :   	DEP 始终开启.
- AlwasysOff : 	DEP 始终关闭.
- win7 和 win10 默认使用 OptIn. 	windows Server 2012 或  Windows Server 2019 默认使用AlwaysOn.
+- OptIn:           	DEP 只对系统进程和指定进程开启.
+- OptOut:        	DEP 对所有进程开启,除非指定了特定进程不开启.
+- AlwaysOn :   	DEP 始终开启.
+- AlwasysOff : 	DEP 始终关闭.
+- win7 和 win10 默认使用 OptIn. 	windows Server 2012 或  Windows Server 2019 默认使用AlwaysOn.
  
 #### 为了兼容性问题, 有些情况下可以对进程开启或关闭 DEP
 > LdrpCheckNXCompatibility 	用于检查以确定是否应为进程启动DEP支持. (ntdll.dll)
