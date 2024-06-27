@@ -2,9 +2,8 @@
 layout: default
 ---
 
----
 ### 查找kernel32.dll基址
-> ==通过TEB->PEB->Ldr来获取到kernel32.dll基址.==
+==通过TEB->PEB->Ldr来获取到kernel32.dll基址.==
 1. 通过TEB得到PEB
 ```
 0:000> dt !_teb @$teb
@@ -61,7 +60,7 @@ ntdll!_LIST_ENTRY
    +0x000 Flink            : 0x00532ce0 _LIST_ENTRY [ 0x533508 - 0x770c6c1c ]
    +0x004 Blink            : 0x005331b8 _LIST_ENTRY [ 0x770c6c1c - 0x533508 ]
 ```
-> 补充
+补充
 ```
 ########################list_entry获取数据位置########################
 #define list_entry(ptr, type, member) ((type *) ((char *) (ptr) - (unsigned long) (&((type *) 0)->member)))
@@ -122,7 +121,7 @@ ntdll!_UNICODE_STRING
 
 ---
 ### 查找函数
-> ==通过PE头查找到导出表,遍历导出表找到想要的函数.==
+==通过PE头查找到导出表,遍历导出表找到想要的函数.==
 1. DOS头信息
 ```
 0:000> dt _IMAGE_DOS_HEADER 76a60000 
@@ -281,15 +280,15 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 
 ---
 ### 避免0x00
-> ==在一些指令中会出现0x00字节,需要处理掉这些字节==
+==在一些指令中会出现0x00字节,需要处理掉这些字节==
 1. 算数运算
 ```
 81ec00020000   sub   esp,200h  ===>  81c4f0fdffff   add   esp,0FFFFFDF0h
 ```
 2. CALL相对地址调用
-> ==只要被调用的函数地址小于调用者则会使用负数偏移,大概率不会产生0x00字节==
+==只要被调用的函数地址小于调用者则会使用负数偏移,大概率不会产生0x00字节==
 3. CALL绝对地址调用
-> ==动态查找绝对地址保存到寄存器,然后CALL Registers==
+==动态查找绝对地址保存到寄存器,然后CALL Registers==
 ```
      find_function_shorten:               
        jmp find_function_shorten_bnc   ;     Short jump
@@ -305,7 +304,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
        ......                          ;     shellcode
 
 ```
-> 除了上述方式,还有其他方式可以得到绝对地址.比如: fnstenv
+除了上述方式,还有其他方式可以得到绝对地址.比如: fnstenv
 
 ---
 ### Reverse Shell
@@ -313,7 +312,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 1. 得到CreateProcessA地址.(用于创建cmd.exe进程)
 2. 得到LoadLibraryA地址.(用于加载ws2_32.dll)
 3. 加载ws2_32.dll
-> LoadLibraryA需要一个String参数. ws2_32.dll = 77 73 32 5f 33 32 2e 64 6c 6c 使用栈传递字符串参数
+LoadLibraryA需要一个String参数. ws2_32.dll = 77 73 32 5f 33 32 2e 64 6c 6c 使用栈传递字符串参数
 ```
 	load_ws2_32:
 		xor eax, eax;
