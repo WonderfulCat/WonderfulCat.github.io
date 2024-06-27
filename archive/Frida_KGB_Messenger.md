@@ -83,8 +83,8 @@ Java.perform(() => {
  <string name="username">codenameduchess</string>
 ```
 2.2 密码使用MD5加密
-Google搜索codenameduchess password是一个动画片里面中的密码:==guest== (离谱)
-这里如果使用frida hook函数破解的话会得不到第二个Flag. 第二个Flag需要用户名和密码来解码.
+- Google搜索codenameduchess password是一个动画片里面中的密码:==guest== (离谱)
+- 这里如果使用frida hook函数破解的话会得不到第二个Flag. 第二个Flag需要用户名和密码来解码.
 
 
 #### 3. 第三个Activity有2个检测点:
