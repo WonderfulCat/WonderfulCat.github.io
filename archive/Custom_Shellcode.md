@@ -40,6 +40,7 @@ ntdll!_PEB
 ```
 
 3. Ldr信息
+
 ```
 0:000> dt !_PEB_LDR_DATA  0x770c6c00 
 ntdll!_PEB_LDR_DATA
@@ -52,17 +53,19 @@ ntdll!_PEB_LDR_DATA
    +0x024 EntryInProgress  : (null) 
    +0x028 ShutdownInProgress : 0 ''
    +0x02c ShutdownThreadId : (null) 
-   
---------------------
+
+
 0:000> dt !_LIST_ENTRY 0x770c6c00 + 0x1c
 ntdll!_LIST_ENTRY
  [ 0x532ce0 - 0x5331b8 ]
    +0x000 Flink            : 0x00532ce0 _LIST_ENTRY [ 0x533508 - 0x770c6c1c ]
    +0x004 Blink            : 0x005331b8 _LIST_ENTRY [ 0x770c6c1c - 0x533508 ]
+
 ```
+
 补充
-```
 ########################list_entry获取数据位置########################
+>
 #define list_entry(ptr, type, member) ((type *) ((char *) (ptr) - (unsigned long) (&((type *) 0)->member)))
 
 ptr 	: 	list_entry节点指针
@@ -71,8 +74,8 @@ member	:	这是TYPE对象中list_head型变量的变量名
 
 (TYPE *)0 				:	将0强制转换成TYPE型指针，则该指针一定指向0地址(数据结构基址).
 &((TYPE *)0)->MEMBER	:	MEMBER对应数据基址的偏移offset.
-然后使用ptr-offset		:	数据真实基址.
-```
+然后使用ptr-offset		 :	数据真实基址.
+
 4. _LDR_DATA_TABLE_ENTRY
 ```
 _LIST_ENTRY中的数据为_LDR_DATA_TABLE_ENTRY.
@@ -94,7 +97,6 @@ ntdll!_LDR_DATA_TABLE_ENTRY
    +0x034 MarkedForRemoval : 0y0
    +0x034 ImageDll         : 0y1
 
---------------------
 ntdll!_UNICODE_STRING
    +0x000 Length           : Uint2B
    +0x002 MaximumLength    : Uint2B
@@ -102,6 +104,7 @@ ntdll!_UNICODE_STRING
 
 所以ntdll!_LDR_DATA_TABLE_ENTRY + 0x2C + 0x04 = BaseDllName
 ```
+
 5.  查找kernel32.dll基址代码
 ```
 	find_kernel32:
@@ -220,8 +223,10 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 
 无名称函数查找过程:
     直接用函数序数-基数=EAT索引,直接用索引查找EAT表即可.
+
 ```
 5. 导出表函数名需要进行匹配,这里使用一种HASH算法使函数名转换为DWORD.
+
 ```
 	compute_hash :
 		xor eax, eax					; NULL EAX
