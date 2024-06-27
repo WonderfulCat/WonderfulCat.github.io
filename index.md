@@ -9,7 +9,7 @@ layout: default
 - [x64_使用IDT中断R3提权至R0调用](https://github.com/WonderfulCat/WonderfulCat.github.io/blob/master/archive/x64_IDT_R3_R0.md)
 
 # x86:
-- [Sync Breeze Enterprise 10.0.28 - Remote Buffer Overflow](https://github.com/WonderfulCat/WonderfulCat.github.io/blob/master/archive/Sync_Breeze_Enterprise_10_0_28_Remote_Buffer_Overflow.md
+- [Sync Breeze Enterprise 10.0.28 - Remote Buffer Overflow](https://github.com/WonderfulCat/WonderfulCat.github.io/blob/master/archive/Sync_Breeze_Enterprise_10_0_28_Remote_Buffer_Overflow.md)
 - [Sync Breeze Enterprise 10.4.18 - Remote SEH Overflows](https://github.com/WonderfulCat/WonderfulCat.github.io/blob/master/archive/Sync_Breeze_Enterprise_10_4_18_Remote_SEH_Overflows.md)
 - [Savant 3.1 (CVE-2002-1120)](https://github.com/WonderfulCat/WonderfulCat.github.io/blob/master/archive/Savant_3_1_CVE_2002_1120.md)
 - [Savant 3.1 - egghunters](https://github.com/WonderfulCat/WonderfulCat.github.io/blob/master/archive/Savant_3_1_egghunters.md)

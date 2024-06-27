@@ -41,9 +41,9 @@ class AlistSink extends DataFlow::Node {
 ```
 
 ## 设置source
-==设置source直接使用了UntrustedFlowSource::Range==
-==具体的代码可以参考: https://github.com/github/codeql/blob/main/go/ql/lib/semmle/go/frameworks/Gin.qll==
-==以下是该文件的部分截取,主在是获取框架内读取数据method结果做为注入点==
+- ==设置source直接使用了UntrustedFlowSource::Range==
+- ==具体的代码可以参考: https://github.com/github/codeql/blob/main/go/ql/lib/semmle/go/frameworks/Gin.qll==
+- ==以下是该文件的部分截取,主在是获取框架内读取数据method结果做为注入点==
 ```golang
   private class GithubComGinGonicGinContextSource extends UntrustedFlowSource::Range {
     GithubComGinGonicGinContextSource() {
