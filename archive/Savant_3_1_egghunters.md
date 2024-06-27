@@ -155,6 +155,7 @@ End Address:            043e0000
 
 # 3. 第一种实现方式
 >3.1 需要使用一种方式来判断访问内存是否合法.
+
 ```
 通过调用NtAccessCheckAndAuditAlarm后返回值来确定内存是否可以访问.
 eax ---> 指定系统调用号
@@ -179,6 +180,7 @@ ntdll!NtAccessCheckAndAuditAlarm:
 ```
 
 >3.3 egghunter
+
 ```
 "\x33\xD2"              #XOR EDX,EDX				;edx清0
 "\x66\x81\xCA\xFF\x0F"  #OR DX,0FFF					;跳转到当前page页尾(10-10-12分页)
@@ -223,6 +225,7 @@ SEH代码执行会存在一些条件判断:
 在插入SEH时,我们的_except_handler代码刚好是在栈上的,这时无法满足第4个条件.
 那么把StackBase覆盖成_except_handler - 4 就可以满足.
 ```
+
 >4.3 egghunter
 
 ```
