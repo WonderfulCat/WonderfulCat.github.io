@@ -291,5 +291,5 @@ GetPC参考:
 
  SEH可参考之前文章.
 
- [Egghunters参考:](https://www.corelan.be/index.php/2019/04/23/windows-10-egghunter/)
- [Exploit参考:](https://www.exploit-db.com/search?q=Savant+Web+Server)
+ [Egghunters参考](https://www.corelan.be/index.php/2019/04/23/windows-10-egghunter/)
+ [Exploit参考](https://www.exploit-db.com/search?q=Savant+Web+Server)
