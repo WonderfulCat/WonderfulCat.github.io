@@ -66,13 +66,13 @@ ntdll!_LIST_ENTRY
 补充
 ########################list_entry获取数据位置########################
 >
-#define list_entry(ptr, type, member) ((type *) ((char *) (ptr) - (unsigned long) (&((type *) 0)->member)))
-ptr 	: 	list_entry节点指针
-type 	:	数据类型指针
-member	:	这是TYPE对象中list_head型变量的变量名
-(TYPE *)0 				:	将0强制转换成TYPE型指针，则该指针一定指向0地址(数据结构基址).
-&((TYPE *)0)->MEMBER	:	MEMBER对应数据基址的偏移offset.
-然后使用ptr-offset		 :	数据真实基址.
+- #define list_entry(ptr, type, member) ((type *) ((char *) (ptr) - (unsigned long) (&((type *) 0)->member)))
+- ptr 		: 	list_entry节点指针
+- type 		:	数据类型指针
+- member	:	这是TYPE对象中list_head型变量的变量名
+- (TYPE *)0 				:	将0强制转换成TYPE型指针，则该指针一定指向0地址(数据结构基址).
+- &((TYPE *)0)->MEMBER		:	MEMBER对应数据基址的偏移offset.
+- 然后使用ptr-offset		 :	数据真实基址.
 
 4. _LDR_DATA_TABLE_ENTRY
 ```
