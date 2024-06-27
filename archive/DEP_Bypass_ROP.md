@@ -14,14 +14,13 @@ layout: default
 - win7 和 win10 默认使用 OptIn. 	windows Server 2012 或  Windows Server 2019 默认使用AlwaysOn.
  
 #### 为了兼容性问题, 有些情况下可以对进程开启或关闭 DEP
-> LdrpCheckNXCompatibility 	用于检查以确定是否应为进程启动DEP支持. (ntdll.dll)
- NtSetInformationProcess 		用于是开启或禁用正在运行的进程的DEP. (ntdll.dll)
+- LdrpCheckNXCompatibility 	用于检查以确定是否应为进程启动DEP支持. (ntdll.dll)
+- NtSetInformationProcess 		用于是开启或禁用正在运行的进程的DEP. (ntdll.dll)
 
 #### win10 强制开启指定进程DEP
->
-安全中心 -> 打开Windows安全中心 -> 应用和浏览器控制 -> Exploit Protection -> 程序设置 -> 添加程序自定义 -> 数据执行保护(DEP)
-编译过程中加入 /NXCOMPAT标志 , 在进程运行期间无法禁用DEP. 
-这意味着在整个过程中无法关闭 DEP, 那么唯一的选择就是规避系统的NX检查.
+- 安全中心 -> 打开Windows安全中心 -> 应用和浏览器控制 -> Exploit Protection -> 程序设置 -> 添加程序自定义 -> 数据执行保护(DEP)
+- 编译过程中加入 /NXCOMPAT标志 , 在进程运行期间无法禁用DEP. 
+- 这意味着在整个过程中无法关闭 DEP, 那么唯一的选择就是规避系统的NX检查.
 
 ---
 
