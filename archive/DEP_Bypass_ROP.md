@@ -25,7 +25,7 @@ layout: default
 > ROP 原理是用程序中己有的代码片段来组成可执行的代码链.
 > 通过将不同代码片段地址注入到栈中, 使用RET来控制程序流程.
 > 最终调用 VirtualAlloc,VirtualProtect 等函数改写内存权限执行Shellcode.
-```c
+```
 > 假设栈内数据如下的情况下,代码会依次执行. 使用栈来控制RET的跳转.
 
   ESP 0 -> 0x1013fc06  	# xor eax, eax ; ret ;
@@ -33,13 +33,13 @@ layout: default
   ESP 8 -> 0x10114901	# mov  [ecx], eax ; ret ;
 ```
 #### 使用rp++获取Gadgets
-```c
+```
 - https://github.com/0vercl0k/rp
 - rp-win-x86.exe -f Test.exe -r 5 > rop.txt  
 ```
 
 #### 使用VirtualAlloc改变虚拟地址属性
-```C
+```
  LPVOID WINAPI VirtualAlloc(
    _In_opt_ LPVOID lpAddress,
    _In_     SIZE_T dwSize,
@@ -54,7 +54,7 @@ layout: default
 
 #### 调用栈信息
 - 将以下栈数据放到溢出EIP之前. 
-```c
+```
 0d2be300 75f5ab90 -> KERNEL32!VirtualAllocStub (kernel32.dll符号表中名字为VirtualAllocStub)
 0d2be304 0d2be488 -> Return address (Shellcode on the stack)
 0d2be308 0d2be488 -> lpAddress (Shellcode on the stack)
@@ -69,7 +69,7 @@ layout: default
 >- dwSize, flAllocation Type和 flProtect 包含0x00字符. (通过负数运算,自增,自减,取反等方式写入)
 
 #### 参考代码
-```c
+```
   #-----------调用框架----------
   va = pack('<L', 0x45454545)	# KERNEL32!VirtualAllocStub
   va += pack('<L', 0x46464646)	# Return address (Shellcode on the stack)

