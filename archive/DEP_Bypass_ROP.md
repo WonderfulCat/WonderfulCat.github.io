@@ -7,21 +7,26 @@ layout: default
  
  ## DEP 简介
 #### DEP 总共有4种模式.
- OptIn:           	DEP 只对系统进程和指定进程开启.
+> OptIn:           	DEP 只对系统进程和指定进程开启.
  OptOut:        	DEP 对所有进程开启,除非指定了特定进程不开启.
  AlwaysOn :   	DEP 始终开启.
  AlwasysOff : 	DEP 始终关闭.
  win7 和 win10 默认使用 OptIn. 	windows Server 2012 或  Windows Server 2019 默认使用AlwaysOn.
+ 
 #### 为了兼容性问题, 有些情况下可以对进程开启或关闭 DEP
- LdrpCheckNXCompatibility 	用于检查以确定是否应为进程启动DEP支持. (ntdll.dll)
+> LdrpCheckNXCompatibility 	用于检查以确定是否应为进程启动DEP支持. (ntdll.dll)
  NtSetInformationProcess 		用于是开启或禁用正在运行的进程的DEP. (ntdll.dll)
 
 #### win10 强制开启指定进程DEP
+>
 安全中心 -> 打开Windows安全中心 -> 应用和浏览器控制 -> Exploit Protection -> 程序设置 -> 添加程序自定义 -> 数据执行保护(DEP)
 编译过程中加入 /NXCOMPAT标志 , 在进程运行期间无法禁用DEP. 
 这意味着在整个过程中无法关闭 DEP, 那么唯一的选择就是规避系统的NX检查.
+
 ---
+
 ##  Return  Oriented Programming (ROP)
+>
  ROP 原理是用程序中己有的代码片段来组成可执行的代码链.
  通过将不同代码片段地址注入到栈中, 使用RET来控制程序流程.
  最终调用 VirtualAlloc,VirtualProtect 等函数改写内存权限执行Shellcode.
