@@ -564,5 +564,4 @@ create_startupinfoa :
 		push eax                   ; lpApplicationName      = 0
 		call dword ptr [ebp+0x18]  ; Call CreateProcessA
 ```
-### 完整代码参考: **[资源下载](https://download.csdn.net/download/faint23/89314119)**
 
