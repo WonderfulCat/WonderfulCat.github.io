@@ -2,7 +2,7 @@
 layout: default
 ---
 
-[codeql分析Alist的反射型xss漏洞 (CVE-2022-26533)](./archive/codeql分析Alist的反射型xss漏洞%20(CVE-2022-26533).md)
+[codeql分析Alist的反射型xss漏洞 (CVE-2022-26533)](./archive/codeql_alist_CVE-2022-26533.md)
 
 Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`.
 
