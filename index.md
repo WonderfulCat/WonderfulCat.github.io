@@ -2,13 +2,13 @@
 layout: default
 ---
 
-### codeql
-- [codeql分析Alist的反射型xss漏洞 (CVE-2022-26533)](./archive/codeql分析Alist的反射型xss漏洞%20(CVE-2022-26533).md)
+# codeql:
+- [codeql分析Alist的反射型xss漏洞 (CVE-2022-26533)](./archive/codeql_Alist_xss_CVE_2022_26533.md)
 
-### x64
+# x64:
 - [x64_使用IDT中断R3提权至R0调用](./archive/x64%20使用IDT中断R3提权至R0调用.md)
 
-### x86
+# x86:
 - [Sync Breeze Enterprise 10.0.28 - Remote Buffer Overflow](./archive/Sync%20Breeze%20Enterprise%2010.0.28%20-%20Remote%20Buffer%20Overflow.md)
 - [Sync Breeze Enterprise 10.4.18 - Remote SEH Overflows](./archive/Sync%20Breeze%20Enterprise%2010.4.18%20-%20Remote%20SEH%20Overflows.md)
 - [Savant 3.1 (CVE-2002-1120)](./archive/Savant%203.1%20(CVE-2002-1120).md)
@@ -16,7 +16,7 @@ layout: default
 - [Custom Shellcode](./archive/Custom%20Shellcode.md)
 - [DEP Bypass - ROP](./archive/DEP%20Bypass%20-%20ROP.md)
 
-### android
+# android:
 - [使用Frida逆向分析KGB Messenger](./archive/使用Frida逆向分析KGB%20Messenger.md)
 
 Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`.
