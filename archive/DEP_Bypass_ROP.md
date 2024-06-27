@@ -52,7 +52,7 @@ layout: default
    _In_     DWORD  flProtect
  );
 ```
- pAddress: 如果指向己分配页面,则可以使用flProtect改变页面属性.
+- pAddress: 如果指向己分配页面,则可以使用flProtect改变页面属性.
  dwSize: 以页为单位 Shellcode如果小于0x1000字节, dwSize在0x01~0x1000之间即可.
  flAllocationType: 必须设置为MEM_COMMIT (0x00001000).
  flProtect: 必须设置为PAGE_EXECUTE_READWRITE (0x00000040).
