@@ -5,6 +5,8 @@ layout: default
 #### 1. 第一个Activity有2个检测点:
 - System.getProperty("user.home") 
 - System.getenv("USER") 
+
+
 ```java
     @Override  
     public void onCreate(Bundle bundle) {
@@ -81,7 +83,7 @@ Java.perform(() => {
  <string name="username">codenameduchess</string>
 ```
 2.2 密码使用MD5加密
->Google搜索codenameduchess password是一个动画片里面中的密码:==guest== (离谱)
+Google搜索codenameduchess password是一个动画片里面中的密码:==guest== (离谱)
 这里如果使用frida hook函数破解的话会得不到第二个Flag. 第二个Flag需要用户名和密码来解码.
 
 
@@ -100,7 +102,7 @@ Java.perform(() => {
 ```
 
 3.1 mw_messengerAcitivty_EncodeInputText1
->高位^2, 低位^A , 然后反转字符数组. 反过来即可得到正确结果 : ==Boris, give me the password==
+高位^2, 低位^A , 然后反转字符数组. 反过来即可得到正确结果 : ==Boris, give me the password==
 ```java
  	private String mw_messengerActivity_str_check1 = "V@]EAASB\u0012WZF\u0012e,a$7(&am2(3.\u0003";
  
@@ -135,7 +137,7 @@ Java.perform(() => {
         return new String(charArray);
     }
 ```
->反转数组
+反转数组
 这时需要思考一下:  char_x >> index %8 ^ char_x = char_y
 char_y 和 index 己知. 只需要遍历一下char_x即可得到正确结果 : ==May I *PLEASE* have the password?==
 index % 8 时在8的整数倍时为0 . 此时 char xor char = 0, 所以会有空字符.
