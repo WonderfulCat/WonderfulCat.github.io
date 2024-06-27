@@ -137,10 +137,10 @@ Google搜索codenameduchess password是一个动画片里面中的密码:==guest
         return new String(charArray);
     }
 ```
-反转数组
-这时需要思考一下:  char_x >> index %8 ^ char_x = char_y
-char_y 和 index 己知. 只需要遍历一下char_x即可得到正确结果 : ==May I *PLEASE* have the password?==
-index % 8 时在8的整数倍时为0 . 此时 char xor char = 0, 所以会有空字符.
+- 反转数组
+- 这时需要思考一下:  char_x >> index %8 ^ char_x = char_y
+- char_y 和 index 己知. 只需要遍历一下char_x即可得到正确结果 : ==May I *PLEASE* have the password?==
+- index % 8 时在8的整数倍时为0 . 此时 char xor char = 0, 所以会有空字符.
 ```java
     private static char GetChar(char ch, int shift) {
         for (char i = 0; i < 128; i++) {
