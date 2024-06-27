@@ -14,7 +14,7 @@ layout: default
 
 >  1.2： 调用libpal.dll中的GetField解析参数取出username并复制到指定栈地址空间上.(**此处产生溢出**)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/direct/bc8f65b6f09e43f29c436e4cc109e981.jpeg#pic_center)
+![在这里插入图片描述](./Sync_Breeze_Enterprise_10.0.28_Remote_Buffer_Overflow_res/bc8f65b6f09e43f29c436e4cc109e981.jpeg#pic_center)
  ## 2. 生成shellcode
  
 

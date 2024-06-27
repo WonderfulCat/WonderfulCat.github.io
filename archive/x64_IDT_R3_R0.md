@@ -16,7 +16,7 @@ eq fffff800`54862218 1
 
 ## 二. 修改CR4中SMEP,SMAP
 
-![CR4寄存器](./x64_使用IDT中断R3提权至R0调用/1ed16696e603477782c029445c031804.jpeg#pic_center)
+![CR4寄存器](./x64_IDT_R3_R0/1ed16696e603477782c029445c031804.jpeg#pic_center)
 
 ```c
 CR4第20位(SMEP)和21位(SMAP)会禁止0环执行\访问3环代码. 我们的中断执行代码就在3环,所以这里需要修改一下.
@@ -40,7 +40,7 @@ mov     cr3, rsi				;切换至内核CR3
 除了CR3切换外,还要注意页表是否有执行权限.必要时需要修改PXE,PPE,PDE,PTE属性.
 我的测试环境是并没有这种情况发生,所以无需设置.
 ```
-![页表属性](./x64_使用IDT中断R3提权至R0调用/d6981073ced64b2e9fb3b567dd81da10.jpeg#pic_center)
+![页表属性](./x64_IDT_R3_R0/d6981073ced64b2e9fb3b567dd81da10.jpeg#pic_center)
 
 ## 四. 内核栈环境
 
