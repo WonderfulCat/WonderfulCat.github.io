@@ -53,9 +53,9 @@ layout: default
  );
 ```
 - pAddress: 如果指向己分配页面,则可以使用flProtect改变页面属性.
- dwSize: 以页为单位 Shellcode如果小于0x1000字节, dwSize在0x01~0x1000之间即可.
- flAllocationType: 必须设置为MEM_COMMIT (0x00001000).
- flProtect: 必须设置为PAGE_EXECUTE_READWRITE (0x00000040).
+- dwSize: 以页为单位 Shellcode如果小于0x1000字节, dwSize在0x01~0x1000之间即可.
+- flAllocationType: 必须设置为MEM_COMMIT (0x00001000).
+- flProtect: 必须设置为PAGE_EXECUTE_READWRITE (0x00000040).
 
 #### 调用栈信息
 - 将以下栈数据放到溢出EIP之前. 
@@ -68,10 +68,10 @@ layout: default
 0d2be314 00000040 -> flProtect
 ```
 #### 需要解决的问题
- 得到栈地址 (通过PUSH ESP; POP REGISTER; 来获取)
- 得到 VirtualAlloc 地址 (通过IAT表获得)
- 得到 Shellcode 地址 (通过计算溢出数据来计算)
- dwSize, flAllocation Type和 flProtect 包含0x00字符. (通过负数运算,自增,自减,取反等方式写入)
+- 得到栈地址 (通过PUSH ESP; POP REGISTER; 来获取)
+- 得到 VirtualAlloc 地址 (通过IAT表获得)
+- 得到 Shellcode 地址 (通过计算溢出数据来计算)
+- dwSize, flAllocation Type和 flProtect 包含0x00字符. (通过负数运算,自增,自减,取反等方式写入)
 
 #### 参考代码
 ```
