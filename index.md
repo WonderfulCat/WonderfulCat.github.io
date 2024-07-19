@@ -19,6 +19,7 @@ layout: default
 # android:
 - [使用Frida逆向分析KGB Messenger](https://github.com/WonderfulCat/WonderfulCat.github.io/blob/master/archive/Frida_KGB_Messenger.md)
 - [Android 4.1 Elf Loader](https://github.com/WonderfulCat/WonderfulCat.github.io/blob/master/archive/Android4.1_ELF_Loader.md)
+- [Android Arm32 Inject so](https://github.com/WonderfulCat/WonderfulCat.github.io/blob/master/archive/Android_Arm32_Inject_so.md)
 
 ---
 ![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png)
